@@ -50,9 +50,9 @@ def get_report(org_id):
 
         logger.info(f"Generating report for org_id={org_id} from {start_date} to {end_date}")
          #Validate date range
-        if (end_date - start_date).days > 365:
-            logger.warning(f"Date range exceeds 1 year: start_date={start_date}, end_date={end_date}")
-            return jsonify({'error': 'Date range cannot exceed 1 year'}), 400
+        # if (end_date - start_date).days > 365:
+        #     logger.warning(f"Date range exceeds 1 year: start_date={start_date}, end_date={end_date}")
+        #     return jsonify({'error': 'Date range cannot exceed 1 year'}), 400
 
         try:
             csv_data = ReportService.get_total_learning_hours_csv_stream(
@@ -70,7 +70,10 @@ def get_report(org_id):
 
         time_taken = round(time_module.time() - start_timer, 2)
         logger.info(f"Report generated successfully for org_id={org_id} in {time_taken} seconds")
-
+        if csv_data:
+            with open("total_learning_hours.csv", "w") as f:
+                for line in csv_data:
+                    f.write(line)
         response = Response(
             stream_with_context(csv_data),
             mimetype="text/csv",

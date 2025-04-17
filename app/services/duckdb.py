@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from duckdb_gs_util import query_duckdb_from_gcs
+    from app.utils import query_duckdb_from_gcs,query_local_duckdb
 
     KEY_ID = ""
     SECRET = ""
@@ -33,5 +33,11 @@ if __name__ == "__main__":
         query=query,
         output_csv_path="query_output.csv"
     )
+
+    df2 = query_local_duckdb(
+    db_path="warehouse.duckdb",
+    query=query,
+    output_csv_path="local_output.csv"
+)
 
     print(df)

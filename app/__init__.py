@@ -17,16 +17,16 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.db_config.Config')
     
-    try:
-        # Initialize the database connection pool with a reasonable size
-        DBConnection.initialize_pool(1,10)  # Adjust based on load
-        db.init_app(app)
-        with app.app_context():
-            db.session.execute('SELECT 1')
-            logger.info("Database connection tested successfully.")
-    except Exception as e:
-        logger.error(f"Database initialization failed: {e}")
-        raise RuntimeError("Application startup aborted due to database connection failure.")
+    # try:
+    #     # Initialize the database connection pool with a reasonable size
+    #     DBConnection.initialize_pool(1,10)  # Adjust based on load
+    #     db.init_app(app)
+    #     with app.app_context():
+    #         db.session.execute('SELECT 1')
+    #         logger.info("Database connection tested successfully.")
+    # except Exception as e:
+    #     logger.error(f"Database initialization failed: {e}")
+    #     raise RuntimeError("Application startup aborted due to database connection failure.")
 
     if IS_VALIDATION_ENABLED.lower() == 'true':
         base_path = ACCESS_TOKEN_PUBLICKEY_BASEPATH
